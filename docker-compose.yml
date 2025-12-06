@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  geo-service:
+    build: .
+    ports:
+      - "${PORT:-8090}:8090"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - DATASOURCE_STRING=${DATASOURCE_STRING:-./data/sample.sqlite}
+      - HOST=${HOST:-0.0.0.0}
+      - PORT=${PORT:-8090}
+      - API_ROOT=${API_ROOT:-/geo}
+      - API_SUBPATH=${API_SUBPATH:-/sample}
+      - API_TYPE_PATH=${API_TYPE_PATH:-/types}
+      - ALLOWED_CRUD=${ALLOWED_CRUD:-R}
+      - SERVICE_HEADER=${SERVICE_HEADER:-}
+      - CORS_ACCEPTED=${CORS_ACCEPTED:-*}
+    restart: unless-stopped
