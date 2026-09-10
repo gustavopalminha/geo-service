@@ -28,32 +28,36 @@ npm run dev
 
 ## Environment Variables for PostgreSQL
 
-| Variable | Required | Description | Example |
-|----------|----------|-------------|---------|
-| `DB_TYPE` | No | Database type (auto-detected) | `postgres` |
-| `DATASOURCE_STRING` | Yes | PostgreSQL connection URL | `postgresql://user:pass@host:5432/db` |
-| `DB_SCHEMA` | No | Database schema | `public` (default) |
-| `DB_TABLE` | No | Specific table to use | `locations` (uses first table if not set) |
-| `DB_SSL` | No | Enable SSL connection | `true` or `false` |
+| Variable            | Required | Description                   | Example                                   |
+| ------------------- | -------- | ----------------------------- | ----------------------------------------- |
+| `DB_TYPE`           | No       | Database type (auto-detected) | `postgres`                                |
+| `DATASOURCE_STRING` | Yes      | PostgreSQL connection URL     | `postgresql://user:pass@host:5432/db`     |
+| `DB_SCHEMA`         | No       | Database schema               | `public` (default)                        |
+| `DB_TABLE`          | No       | Specific table to use         | `locations` (uses first table if not set) |
+| `DB_SSL`            | No       | Enable SSL connection         | `true` or `false`                         |
 
 ## Connection String Formats
 
 ### Standard PostgreSQL
+
 ```
 postgresql://username:password@hostname:5432/database_name
 ```
 
 ### With SSL
+
 ```
 postgresql://username:password@hostname:5432/database_name?sslmode=require
 ```
 
 ### AWS RDS
+
 ```
 postgresql://username:password@mydb.abc123.us-east-1.rds.amazonaws.com:5432/mydb
 ```
 
 ### Heroku Postgres
+
 ```
 postgres://username:password@ec2-host.compute-1.amazonaws.com:5432/database
 ```
@@ -83,38 +87,43 @@ INSERT INTO locations (name, location, description) VALUES
 
 ## Type Mapping
 
-| PostgreSQL Type | TypeScript Type |
-|----------------|-----------------|
-| INTEGER, SERIAL, BIGINT | number |
-| NUMERIC, DECIMAL, REAL, DOUBLE PRECISION | number |
-| VARCHAR, TEXT, CHAR | string |
-| BOOLEAN | boolean |
-| BYTEA | Buffer |
-| JSON, JSONB | any |
-| DATE, TIMESTAMP, TIME | Date |
-| UUID | string |
-| GEOMETRY, GEOGRAPHY | string |
+| PostgreSQL Type                          | TypeScript Type |
+| ---------------------------------------- | --------------- |
+| INTEGER, SERIAL, BIGINT                  | number          |
+| NUMERIC, DECIMAL, REAL, DOUBLE PRECISION | number          |
+| VARCHAR, TEXT, CHAR                      | string          |
+| BOOLEAN                                  | boolean         |
+| BYTEA                                    | Buffer          |
+| JSON, JSONB                              | any             |
+| DATE, TIMESTAMP, TIME                    | Date            |
+| UUID                                     | string          |
+| GEOMETRY, GEOGRAPHY                      | string          |
 
 ## Common Issues
 
 ### Connection Refused
+
 - Ensure PostgreSQL is running
 - Check firewall settings
 - Verify connection string credentials
 
 ### SSL Required
+
 ```bash
 DB_SSL=true
 DATASOURCE_STRING=postgresql://user:pass@host:5432/db?sslmode=require
 ```
 
 ### Schema Not Found
+
 ```bash
 DB_SCHEMA=your_schema_name
 ```
 
 ### Multiple Tables
+
 Specify which table to use:
+
 ```bash
 DB_TABLE=your_table_name
 ```

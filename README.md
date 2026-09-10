@@ -3,8 +3,8 @@
 A self-contained REST API built with NestJS and TypeScript that provides CRUD operations over dynamically determined data sources. The service introspects your database schema and automatically generates TypeORM entities and TypeScript interfaces.
 
 ## 📚 Context
-The main motivation to build this project was to achieve an Udemy certificate in NestJs: The Complete Developer's Guide.
 
+The main motivation to build this project was to achieve an Udemy certificate in NestJs: The Complete Developer's Guide.
 
 ## ✨ Features
 
@@ -57,21 +57,21 @@ docker-compose down
 
 ## 📋 Environment Variables
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `DATASOURCE_STRING` | `./data/sample.sqlite` | Path to SQLite database file |
-| `DB_TABLE` | (first table found) | Specific table name to use. If not set, uses the first table found in database |
-| `HOST` | `localhost` | Server host address |
-| `PORT` | `8090` | Server port |
-| `API_ROOT` | `/geo` | Root path for all API endpoints |
-| `API_SUBPATH` | (auto-derived) | Subpath for data CRUD (e.g., `/sample`) |
-| `API_TYPE_PATH` | `/types` | Path for schema endpoint |
-| `ALLOWED_CRUD` | `R` | Allowed operations: C=Create, R=Read, U=Update, D=Delete |
-| `SERVICE_HEADER` | (empty) | If set, requires matching `x-geo-call` header |
-| `CORS_ACCEPTED` | `*` | CORS allowed origins |
-| `ALLOW_SPATIAL_QUERIES` | `true` | Enable/disable spatial query endpoints |
-| `DEFAULT_SRID` | `4326` | Default SRID for spatial queries (WGS84) |
-| `DEFAULT_GEOM_COLUMN` | `geom` | Default geometry column name |
+| Variable                | Default                | Description                                                                    |
+| ----------------------- | ---------------------- | ------------------------------------------------------------------------------ |
+| `DATASOURCE_STRING`     | `./data/sample.sqlite` | Path to SQLite database file                                                   |
+| `DB_TABLE`              | (first table found)    | Specific table name to use. If not set, uses the first table found in database |
+| `HOST`                  | `localhost`            | Server host address                                                            |
+| `PORT`                  | `8090`                 | Server port                                                                    |
+| `API_ROOT`              | `/geo`                 | Root path for all API endpoints                                                |
+| `API_SUBPATH`           | (auto-derived)         | Subpath for data CRUD (e.g., `/sample`)                                        |
+| `API_TYPE_PATH`         | `/types`               | Path for schema endpoint                                                       |
+| `ALLOWED_CRUD`          | `R`                    | Allowed operations: C=Create, R=Read, U=Update, D=Delete                       |
+| `SERVICE_HEADER`        | (empty)                | If set, requires matching `x-geo-call` header                                  |
+| `CORS_ACCEPTED`         | `*`                    | CORS allowed origins                                                           |
+| `ALLOW_SPATIAL_QUERIES` | `true`                 | Enable/disable spatial query endpoints                                         |
+| `DEFAULT_SRID`          | `4326`                 | Default SRID for spatial queries (WGS84)                                       |
+| `DEFAULT_GEOM_COLUMN`   | `geom`                 | Default geometry column name                                                   |
 
 ## 🔌 API Endpoints
 
@@ -177,6 +177,7 @@ GET /geo/sample/spatial/metadata
 ```
 
 **Supported Operations:**
+
 - `intersects` - Geometries intersect
 - `touches` - Geometries touch but don't overlap
 - `contains` - Geometry A contains geometry B
@@ -184,6 +185,7 @@ GET /geo/sample/spatial/metadata
 - `distance` - Within specified distance (requires `distance` parameter)
 
 **Parameters:**
+
 - `operation` (required) - Spatial operation to perform
 - `geometry` (required) - WKT format geometry
 - `geometryColumn` (optional) - Column name (auto-detected if not provided)
@@ -365,11 +367,13 @@ PORT=8092 DATASOURCE_STRING=./data/users.sqlite npm start
 Step-by-step guide to use your existing `county.sqlite` database:
 
 **Step 1:** Place your database file in the `data/` directory
+
 ```bash
 cp /path/to/county.sqlite ./data/county.sqlite
 ```
 
 **Step 2:** Update your `.env` file
+
 ```bash
 DATASOURCE_STRING=./data/county.sqlite
 DB_TABLE=county
@@ -377,16 +381,19 @@ ALLOWED_CRUD=R
 ```
 
 **Step 3:** Generate entities from your database schema
+
 ```bash
 npm run prepare
 ```
 
 **Step 4:** Start the API service
+
 ```bash
 npm run dev
 ```
 
 **Step 5:** Query your data
+
 ```bash
 # Get all records
 curl http://localhost:8090/geo/county
@@ -414,6 +421,7 @@ curl -X POST http://localhost:8090/geo/county/spatial \
 Using a SpatiaLite database with geometry data:
 
 **Step 1:** Ensure your database has spatial data
+
 ```sql
 -- Example: Create a spatial table
 SELECT InitSpatialMetadata();
@@ -426,12 +434,14 @@ SELECT AddGeometryColumn('counties', 'geom', 4326, 'POLYGON', 'XY');
 ```
 
 **Step 2:** Configure and start the service
+
 ```bash
 DATASOURCE_STRING=./data/counties.sqlite npm run prepare
 npm run dev
 ```
 
 **Step 3:** Query spatial data
+
 ```bash
 # Find counties intersecting with a point
 curl -X POST http://localhost:8090/geo/counties/spatial \
@@ -477,12 +487,13 @@ npm run test:spatialite
 ```
 
 If you plan to run the geo-service with local spatialite support, you need to have the SpatiaLite extension for SQLite installed.
-When running `npm run test:spatialite`, the script will attempt to load the SpatiaLite extension for SQLite and print the result to the console. 
+When running `npm run test:spatialite`, the script will attempt to load the SpatiaLite extension for SQLite and print the result to the console.
 If it's not successfull, it will print an error message and that means will not be able to run localy the geo-service with local spatialite support.
 
 ### Test Coverage
 
 Tests cover:
+
 - ✅ Configuration service
 - ✅ Data service (CRUD operations)
 - ✅ Spatial service (spatial queries)
@@ -493,6 +504,7 @@ Tests cover:
 ### Writing Tests
 
 Unit tests are located alongside source files with `.spec.ts` extension:
+
 ```
 src/
 ├── config/
@@ -506,10 +518,11 @@ src/
 ```
 
 For detailed testing guidelines and comprehensive documentation, see:
+
 - [docs/testing.md](docs/testing.md) - Testing documentation
 - [docs/spatial-queries.md](docs/spatial-queries.md) - How to use / do spatial queries
-- [docs/postgresql-setup.md](docs/postgresql-setup.md) - How to setup a PostgreSQL database
-- [docs/postgresql-migration-plan.md](docs/postgresql-migration-plan.md) - How to migrate a PostgreSQL database
+- [docs/postgres-setup.md](docs/postgres-setup.md) - How to setup a PostgreSQL database
+- [docs/postgres-migration-plan.md](docs/postgres-migration-plan.md) - How to migrate a PostgreSQL database
 
 For sample data to test the geo-service, see the [data](data) folder.
 
